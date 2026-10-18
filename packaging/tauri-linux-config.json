@@ -1,0 +1,26 @@
+{
+  "bundle": {
+    "resources": [
+      "linux-fcitx5-plugin/libyinbo.so",
+      "linux-fcitx5-plugin/yinbo.conf"
+    ],
+    "linux": {
+      "deb": {
+        "depends": [
+          "fcitx5",
+          "fcitx5-module-dbus",
+          "libdbus-1-3",
+          "libxdo3"
+        ],
+        "files": {
+          "/usr/lib/x86_64-linux-gnu/fcitx5/libyinbo.so": "linux-fcitx5-plugin/libyinbo.so",
+          "/usr/share/fcitx5/addon/yinbo.conf": "linux-fcitx5-plugin/yinbo.conf",
+          "/usr/share/gnome-shell/extensions/yinbo-capsule@yinbo/metadata.json": "gnome-shell-extension/yinbo-capsule@yinbo/metadata.json",
+          "/usr/share/gnome-shell/extensions/yinbo-capsule@yinbo/extension.js": "gnome-shell-extension/yinbo-capsule@yinbo/extension.js",
+          "/usr/share/gnome-shell/extensions/yinbo-capsule@yinbo/schemas/org.gnome.shell.extensions.yinbo-capsule.gschema.xml": "gnome-shell-extension/yinbo-capsule@yinbo/schemas/org.gnome.shell.extensions.yinbo-capsule.gschema.xml",
+          "/usr/share/gnome-shell/extensions/yinbo-capsule@yinbo/schemas/gschemas.compiled": "gnome-shell-extension/yinbo-capsule@yinbo/schemas/gschemas.compiled"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "uuid": "yinbo-capsule@yinbo",
+  "name": "Yinbo Capsule",
+  "description": "语音输入悬浮胶囊：跟随音波听写状态在屏幕底部渲染流光动效（GNOME Wayland 专用，点击穿透、不抢焦点）。",
+  "shell-version": [
+    "49",
+    "50"
+  ],
+  "url": "https://github.com/questionjie-max/yinbo",
+  "session-modes": [
+    "user",
+    "unlock-dialog"
+  ]
+}

@@ -1,0 +1,54 @@
+name: CI
+
+# 本项目只发布 Linux 版本，CI 只做两件快而可靠的事：
+# 前端能否通过类型检查并构建、fcitx5 注入插件能否编译。
+# 不做多平台构建，也不需要任何密钥。
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  frontend:
+    name: 前端类型检查与构建
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: openless-all/app/package-lock.json
+      - name: 安装依赖
+        working-directory: openless-all/app
+        run: npm ci
+      - name: 类型检查
+        working-directory: openless-all/app
+        run: npx tsc --noEmit
+      - name: 构建前端
+        working-directory: openless-all/app
+        run: npm run build
+
+  fcitx5-plugin:
+    name: fcitx5 注入插件（C++/CMake）
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 安装构建依赖
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            cmake g++ extra-cmake-modules \
+            libfcitx5core-dev libfcitx5utils-dev libfcitx5config-dev fcitx5-modules-dev
+      - name: 构建插件
+        working-directory: openless-all/scripts/linux-fcitx5-plugin
+        run: |
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+          cmake --build build -j"$(nproc)"
+      - name: 校验产物（含焦点 IC 路由标记）
+        run: |
+          test -f openless-all/scripts/linux-fcitx5-plugin/build/libyinbo.so
+          strings -a openless-all/scripts/linux-fcitx5-plugin/build/libyinbo.so | grep -q "bytes, program="
